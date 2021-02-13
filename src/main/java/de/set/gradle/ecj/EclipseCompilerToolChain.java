@@ -5,6 +5,7 @@ import org.gradle.api.Project;
 import org.gradle.api.artifacts.Configuration;
 import org.gradle.api.internal.tasks.compile.JavaCompileSpec;
 import org.gradle.api.internal.tasks.compile.NormalizingJavaCompiler;
+import org.gradle.internal.logging.text.DiagnosticsVisitor;
 import org.gradle.jvm.internal.toolchain.JavaToolChainInternal;
 import org.gradle.jvm.platform.JavaPlatform;
 import org.gradle.language.base.internal.compile.CompileSpec;
@@ -93,7 +94,7 @@ public class EclipseCompilerToolChain implements JavaToolChainInternal {
     }
 
     @Override
-    public void explain(TreeVisitor<? super String> visitor) {
+    public void explain(DiagnosticsVisitor visitor) {
     }
   }
 
@@ -122,8 +123,7 @@ public class EclipseCompilerToolChain implements JavaToolChainInternal {
     }
 
     @Override
-    public void explain(TreeVisitor<? super String> visitor) {
-      visitor.node(getMessage());
+    public void explain(DiagnosticsVisitor visitor) {
     }
 
     private String getMessage() {

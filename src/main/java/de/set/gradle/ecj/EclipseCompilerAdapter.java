@@ -22,6 +22,7 @@ import org.gradle.process.internal.ExecException;
 public class EclipseCompilerAdapter implements Compiler<JavaCompileSpec> {
 
   private static final Logger LOGGER = Logging.getLogger(EclipseCompilerAdapter.class);
+  private boolean ignoreHeaderOutputDirectory = false;
   private Configuration compilerConfiguration;
   private Project project;
   private String ecjArtifact;
@@ -31,12 +32,18 @@ public class EclipseCompilerAdapter implements Compiler<JavaCompileSpec> {
     this.project = project;
     EclipseCompilerExtension extension = project.getExtensions().getByType(EclipseCompilerExtension.class);
     this.ecjArtifact = extension.getToolGroupId()+":"+extension.getToolArtifactId()+":"+extension.getToolVersion();
+
+    this.ignoreHeaderOutputDirectory = extension.isIgnoreHeaderOutputDirectory();
   }
 
   @Override
   public WorkResult execute(JavaCompileSpec javaCompileSpec) {
     LOGGER.info("Compiling sources using eclipse compiler for java ["+this.ecjArtifact+"]");
 
+    //HACK because JAVA 11 not allows -h Flag und HeaderOutputDirectory seems not to be settable null in buil.gradle
+    if(this.ignoreHeaderOutputDirectory) {
+      javaCompileSpec.getCompileOptions().setHeaderOutputDirectory(null);
+    }
     final List<String> remainingArguments =
         new JavaCompilerArgumentsBuilder(javaCompileSpec).includeSourceFiles(true).build();
 

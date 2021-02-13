@@ -8,6 +8,7 @@ public class EclipseCompilerExtension {
   private String toolGroupId;
   private String toolArtifactId;
   private String toolVersion;
+  private boolean ignoreHeaderOutputDirectory;
 
   
   public String getToolGroupId() {
@@ -32,5 +33,12 @@ public class EclipseCompilerExtension {
 
   public void setToolVersion(String toolVersion) {
     this.toolVersion = toolVersion;
+  }
+  public boolean isIgnoreHeaderOutputDirectory() {
+    return ignoreHeaderOutputDirectory;
+  }
+
+  public void setIgnoreHeaderOutputDirectory(boolean ignoreHeaderOutputDirectory) {
+    this.ignoreHeaderOutputDirectory = ignoreHeaderOutputDirectory;
   }
 }
